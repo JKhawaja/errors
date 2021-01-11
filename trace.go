@@ -32,10 +32,11 @@ func (t *Trace) Unwrap() error {
 	var errStruct *Error
 	if errors.As(t.val, &errStruct) {
 		var errVal *Error
+		t.val = *errStruct.Value
 		if errors.As(*errStruct.Value, &errVal) {
 			errStruct.Timestamp = nil
+			errStruct.Value = nil
 		}
-		t.val = *errStruct.Value
 		t.trace = append(t.trace, errStruct)
 		return t.Unwrap()
 	}
