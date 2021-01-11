@@ -40,5 +40,11 @@ func (t *Trace) Unwrap() error {
 		t.trace = append(t.trace, errStruct)
 		return t.Unwrap()
 	}
+
+	// return simple errors
+	if len(t.trace) == 0 {
+		return t.val
+	}
+
 	return t
 }
